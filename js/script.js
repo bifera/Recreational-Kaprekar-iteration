@@ -9,6 +9,9 @@ $(function(){
     var inputs = $('input[name="digit"]');
 
     var resultText = $('<p>');
+    var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
+    var iterationsList = $('<ul>');
+    var iterationsListItem = $('<li>');
 
     submitBtn.on('click', function(e){
         e.preventDefault();
@@ -19,20 +22,19 @@ $(function(){
         var digit03 = $('#digit03').val();
         var digit04 = $('#digit04').val();
         if (digit01 == digit02 && digit02 == digit03 && digit03 == digit04) {
-            alert('at least one digit must be different!');
+            resultTextClone.text("At least one digit must be different");
+            resultTextClone.appendTo(resultBox);
         } else {
             inputs.each(function(){
                 userArray.push($(this).val());
                 $(this).val("");
             });
             userArray.sort(function(a, b){return b-a});
-            resultTextClone.text(createNumberFromArray(userArray));
-            resultTextClone.appendTo(resultBox);
+            iterationsListTitle.text("Given number: " + createNumberFromArray(userArray));
+            iterationsListTitle.prependTo(resultBox);
             kaprekarGo(userArray);
         }
-
     });
-
 
     /*
     *** KAPREKAR ITERATION ***
@@ -52,7 +54,7 @@ $(function(){
         var array2 = createMirrorArray(array1); // will be needed for step 2
         var num1 = createNumberFromArray(array1);
         var num2 = createNumberFromArray(array2);
-        var resultTextClone = resultText.clone(true);
+        var listItemClone = iterationsListItem.clone(true);
         result = num1 - num2; // step 3
         
         // adding zeroes for numbers less than 1000 - just for visual neatness
@@ -72,8 +74,8 @@ $(function(){
         }
         
         // display results after each iteration
-        resultTextClone.text("iteration no. " + iterationNumber + ": " + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + " = " + zeroForResult + result);
-        resultTextClone.appendTo(resultBox);
+        listItemClone.text("iteration no. " + iterationNumber + ": " + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + " = " + zeroForResult + result);
+        listItemClone.appendTo(iterationsList).attr('id', 'iterNum-0'+iterationNumber);
         /* 
         condition: Kaprekar's constant is 6174 
         */
@@ -93,8 +95,9 @@ $(function(){
             kaprekarGo(newArray);
         } else {
             var finalResult = resultText.clone(true);
-            finalResult.text("Kaprekar's number " + result + " found after " + iterationNumber + " iterations!");
-            finalResult.appendTo(resultBox);
+            finalResult.text("Kaprekar's constant " + result + " found after " + iterationNumber + " iterations!");
+            finalResult.insertAfter($('#listTitle'));
+            iterationsList.appendTo(resultBox);
         }
     }
 
