@@ -12,7 +12,34 @@ $(function(){
     var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
     var iterationsList = $('<ul>');
     var iterationsListItem = $('<li>');
+    
+    /*
+    
+    input with buttons function
+    
+    */
 
+    var inputButtons = $('.numButton');
+    var counter = 0;
+    var string = "";
+    inputButtons.each(function(){
+        $(this).on('click', function(){
+            counter++;
+            var number = $(this).data('value');
+            string += number;
+            if (counter == 4){
+                inputButtons.off();
+                return string;
+            }
+        });
+    });
+
+    /*
+    
+    form function
+    
+    */
+    
     submitBtn.on('click', function(e){
         e.preventDefault();
         var resultTextClone = resultText.clone(true);
@@ -56,12 +83,12 @@ $(function(){
         var num2 = createNumberFromArray(array2);
         var listItemClone = iterationsListItem.clone(true);
         result = num1 - num2; // step 3
-        
+
         // adding zeroes for numbers less than 1000 - just for visual neatness
         var zeroForNum1 = checkResult(num1);
         var zeroForNum2 = checkResult(num2);
         var zeroForResult = checkResult(result);
-        
+
         function checkResult(givenNumber) {
             var string = "";
             if (givenNumber < 1000) {
@@ -72,7 +99,7 @@ $(function(){
             }
             return string;
         }
-        
+
         // display results after each iteration
         listItemClone.text("iteration no. " + iterationNumber + ": " + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + " = " + zeroForResult + result);
         listItemClone.appendTo(iterationsList).attr('id', 'iterNum-0'+iterationNumber);
