@@ -1,5 +1,5 @@
 $(function(){
- 
+
     /*
     DOM functions
     */
@@ -14,17 +14,25 @@ $(function(){
         e.preventDefault();
         var resultTextClone = resultText.clone(true);
         var userArray = [];
-        inputs.each(function(){
-            userArray.push($(this).val());
-            $(this).val("");
-        });
-        userArray.sort(function(a, b){return b-a});
-        resultTextClone.text(createNumberFromArray(userArray));
-        resultTextClone.appendTo(resultBox);
+        var digit01 = $('#digit01').val();
+        var digit02 = $('#digit02').val();
+        var digit03 = $('#digit03').val();
+        var digit04 = $('#digit04').val();
+        if (digit01 == digit02 && digit02 == digit03 && digit03 == digit04) {
+            alert('at least one digit must be different!');
+        } else {
+            inputs.each(function(){
+                userArray.push($(this).val());
+                $(this).val("");
+            });
+            userArray.sort(function(a, b){return b-a});
+            resultTextClone.text(createNumberFromArray(userArray));
+            resultTextClone.appendTo(resultBox);
+            kaprekarGo(userArray);
+        }
 
-        kaprekarGo(userArray);
     });
-    
+
 
     /*
     *** KAPREKAR ITERATION ***
@@ -34,9 +42,9 @@ $(function(){
       Step 4. Go back to step 2. 
     */
 
-    
+
     var iterationNumber = 0;
-    
+
     function kaprekarGo(array) {
         iterationNumber++;
         var result = 0;
@@ -46,7 +54,25 @@ $(function(){
         var num2 = createNumberFromArray(array2);
         var resultTextClone = resultText.clone(true);
         result = num1 - num2; // step 3
-        resultTextClone.text("iteration no. " + iterationNumber + ": " + num1 + " - " + num2 + " = " + result);
+        
+        // adding zeroes for numbers less than 1000 - just for visual neatness
+        var zeroForNum1 = checkResult(num1);
+        var zeroForNum2 = checkResult(num2);
+        var zeroForResult = checkResult(result);
+        
+        function checkResult(givenNumber) {
+            var string = "";
+            if (givenNumber < 1000) {
+                string = "0";
+                if (givenNumber < 100) {
+                    string ="00";
+                }
+            }
+            return string;
+        }
+        
+        // display results after each iteration
+        resultTextClone.text("iteration no. " + iterationNumber + ": " + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + " = " + zeroForResult + result);
         resultTextClone.appendTo(resultBox);
         /* 
         condition: Kaprekar's constant is 6174 
@@ -58,8 +84,12 @@ $(function(){
             for (var i = 0; i < result.length; i++) {
                 newArray.push(result[i]);
             }
+            // if result < 1000, it has three digits, therefore 0 must be added to the array
+            while (newArray.length < 4) {
+                newArray.push(0);
+            }
             newArray.sort(function(a, b){return b-a});
-            // step 4
+            // step 4: a happy return to step 2!
             kaprekarGo(newArray);
         } else {
             var finalResult = resultText.clone(true);
