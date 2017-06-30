@@ -12,14 +12,16 @@
         <link rel="stylesheet" type="text/css" href="./css/style.css">
     </head>
     <body>
-        <header>
+        <header class="container">
             <h1>Kaprekar's routine</h1>
         </header>
         <main>
-            <div class="container">
-                <div class="row">
-                    <div id="userNumber" class="numberOutput"></div>
-                </div>
+            <div class="container output">
+                <div id="result"></div>
+                <div id="userNumber" class="numberOutput"></div>
+            </div>
+            <div class="container input">
+
                 <div class="row">
                     <div class="numButton" data-value="7"><p class="digit">7</p></div>
                     <div class="numButton" data-value="8"><p class="digit">8</p></div>
@@ -41,10 +43,7 @@
                     <div id="clearAll" class="button"><p>Clear All</p></div>
                 </div>
             </div>
-            <div class="container">
-                <div id="result">
-                </div>
-            </div>
+
 
 
 
