@@ -22,12 +22,14 @@ $(function(){
     var inputButtons = $('.numButton');
     var counter = 0;
     var inputArray = [];
+    var outputString = "";
     inputButtons.each(function(){
         $(this).on('click', function(){
             counter++;
             var number = $(this).data('value');
-            inputArray.push(number);
-            $('#userNumber').text(createNumberFromArray(inputArray));
+            inputArray.push(number); // required for counting
+            outputString += number; // required for displaying
+            $('#userNumber').text(outputString);
             if (counter == 4){
                 inputButtons.off();
                 inputArray.sort(function(a, b){return b-a});
@@ -49,9 +51,7 @@ $(function(){
 
     /*
 
-    form function
-
-    */
+    * * * form function * * *
 
     submitBtn.on('click', function(e){
         e.preventDefault();
@@ -75,6 +75,8 @@ $(function(){
             kaprekarGo(userArray);
         }
     });
+    
+    */
 
     /*
     *** KAPREKAR ITERATION ***
