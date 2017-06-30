@@ -12,34 +12,47 @@ $(function(){
     var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
     var iterationsList = $('<ul>');
     var iterationsListItem = $('<li>');
-    
+
     /*
-    
+
     input with buttons function
-    
+
     */
 
     var inputButtons = $('.numButton');
     var counter = 0;
-    var string = "";
+    var inputArray = [];
     inputButtons.each(function(){
         $(this).on('click', function(){
             counter++;
             var number = $(this).data('value');
-            string += number;
+            inputArray.push(number);
+            $('#userNumber').text(createNumberFromArray(inputArray));
             if (counter == 4){
                 inputButtons.off();
-                return string;
+                inputArray.sort(function(a, b){return b-a});
+                return inputArray;
             }
         });
     });
 
+    var submitButton = $('#userNumbersSubmit');
+    submitButton.on('click', function(e){
+        e.preventDefault();
+        /*
+        validation code here ...
+        */
+        iterationsListTitle.text("Given number: " + createNumberFromArray(inputArray));
+        iterationsListTitle.prependTo(resultBox);
+        kaprekarGo(inputArray);
+    });
+
     /*
-    
+
     form function
-    
+
     */
-    
+
     submitBtn.on('click', function(e){
         e.preventDefault();
         var resultTextClone = resultText.clone(true);
