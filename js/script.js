@@ -111,10 +111,8 @@ $(function(){
         if (result !== 6174) {
             // step 2
             result = String(result);
-            var newArray = [];
-            for (var i = 0; i < result.length; i++) {
-                newArray.push(result[i]);
-            }
+            var newArray = result.split("");
+            console.log(newArray);
             // if result < 1000, it has three digits, therefore 0 must be added to the array
             while (newArray.length < 4) {
                 newArray.push(0);
@@ -151,12 +149,8 @@ $(function(){
     */
 
     function createNumberFromArray(inputArray){
-        var numString = "";
-        var result = 0;
-        for (var i = 0; i < inputArray.length; i++) {
-            numString += inputArray[i];
-        }
-        result = Number(numString);
+        var numString = inputArray.join("");
+        var result = Number(numString);
         return result;
     }
 
