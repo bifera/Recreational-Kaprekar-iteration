@@ -23,6 +23,7 @@ $(function(){
     var counter = 0;
     var inputArray = [];
     var outputString = "";
+    var userNumberOutput = $('#userNumber');
     var submitButton = $('#userNumbersSubmit');
 
     /* retrieving input array and displaying input */
@@ -33,7 +34,7 @@ $(function(){
                 var number = $(this).data('value');
                 inputArray.push(number); // required for counting
                 outputString += String(number); // required for displaying
-                $('#userNumber').text(outputString);
+                userNumberOutput.text(outputString);
                 console.log(counter);
                 if (counter == 4) {
                     inputArray.sort(function(a, b){return b-a});
@@ -46,30 +47,25 @@ $(function(){
     });
 
     /* submit button event function */
-    submitButton.on('click', function(e){
-        e.preventDefault();
-        submitButton.off('click');
-        /*
-        validation code here ...
-        */
-        iterationsListTitle.text("Given number: " + createNumberFromArray(inputArray));
-        iterationsListTitle.prependTo(resultBox);
-        kaprekarGo(inputArray);
-        
+    submitButton.on('click', function(){
+        if (inputArray.length === 4) { // simple yet sufficient validation
+            iterationsListTitle.text("Given number: " + createNumberFromArray(inputArray));
+            iterationsListTitle.prependTo(resultBox);
+            kaprekarGo(inputArray);
+            inputArray = []; // to prevent repeating kaprekarGo function
+        }
     });
 
     /* clear button event function */
 
-    clearAllBtn.on('click', function(e){
-        e.preventDefault();
+    clearAllBtn.on('click', function(){
         inputArray = [];
         counter = 0;
-        $('#userNumber').text("");
+        userNumberOutput.text("");
         resultBox.text("");
         iterationsList.text("");
         outputString = "";
         iterationNumber = 0;
-        submitButton.on('click');
     });
 
     /*
