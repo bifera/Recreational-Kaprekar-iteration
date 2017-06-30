@@ -2,34 +2,53 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kaprekar go!</title>
         <script
                 src="https://code.jquery.com/jquery-3.2.1.min.js"
                 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
                 crossorigin="anonymous"></script>
         <script src="./js/script.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
     </head>
     <body>
         <header>
             <h1>Kaprekar's routine</h1>
         </header>
         <main>
-            <form>
-                <div class="numButton" data-value="0">0</div>
-                <div class="numButton" data-value="1">1</div>
-                <div class="numButton" data-value="2">2</div>
-                <div class="numButton" data-value="3">3</div>
-                <div class="numButton" data-value="4">4</div>
-                <div class="numButton" data-value="5">5</div>
-                <div class="numButton" data-value="6">6</div>
-                <div class="numButton" data-value="7">7</div>
-                <div class="numButton" data-value="8">8</div>
-                <div class="numButton" data-value="9">9</div>
-                <div id="userNumbersSubmit">Submit</div>
-                <div id="clearAll">Clear All</div>
-                <div id="userNumber"></div>
-            </form>           
-<!--
+            <div class="container">
+                <div class="row">
+                    <div id="userNumber" class="numberOutput"></div>
+                </div>
+                <div class="row">
+                    <div class="numButton" data-value="7"><p class="digit">7</p></div>
+                    <div class="numButton" data-value="8"><p class="digit">8</p></div>
+                    <div class="numButton" data-value="9"><p class="digit">9</p></div>
+                </div>
+                <div class="row">
+                    <div class="numButton" data-value="4"><p class="digit">4</p></div>
+                    <div class="numButton" data-value="5"><p class="digit">5</p></div>
+                    <div class="numButton" data-value="6"><p class="digit">6</p></div>
+                </div>
+                <div class="row">
+                    <div class="numButton" data-value="1"><p class="digit">1</p></div>
+                    <div class="numButton" data-value="2"><p class="digit">2</p></div>
+                    <div class="numButton" data-value="3"><p class="digit">3</p></div>
+                </div>
+                <div class="row">
+                    <div id="userNumbersSubmit" class="button"><p>Submit</p></div>
+                    <div class="numButton" data-value="0"><p class="digit">0</p></div>
+                    <div id="clearAll" class="button"><p>Clear All</p></div>
+                </div>
+            </div>
+            <div class="container">
+                <div id="result">
+                </div>
+            </div>
+
+
+
+            <!--
 
 ***** different type of number input -- using form inputs *****
 
@@ -51,8 +70,7 @@
 
 
 -->
-            <div id="result">
-            </div>
+
         </main>
         <footer>
         </footer>
