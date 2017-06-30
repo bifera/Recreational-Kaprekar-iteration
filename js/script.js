@@ -5,13 +5,13 @@ $(function(){
     */
 
     var resultBox = $('#result');
-    var submitBtn = $('#submit');
-    var inputs = $('input[name="digit"]');
-
     var resultText = $('<p>');
     var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
     var iterationsList = $('<ul>');
     var iterationsListItem = $('<li>');
+    var clearAllBtn = $('#clearAll');
+
+    var iterationNumber = 0;
 
     /*
 
@@ -23,60 +23,54 @@ $(function(){
     var counter = 0;
     var inputArray = [];
     var outputString = "";
+    var submitButton = $('#userNumbersSubmit');
+
+    /* retrieving input array and displaying input */
     inputButtons.each(function(){
         $(this).on('click', function(){
             counter++;
-            var number = $(this).data('value');
-            inputArray.push(number); // required for counting
-            outputString += number; // required for displaying
-            $('#userNumber').text(outputString);
-            if (counter == 4){
-                inputButtons.off();
-                inputArray.sort(function(a, b){return b-a});
-                return inputArray;
+            if (counter <= 4) {
+                var number = $(this).data('value');
+                inputArray.push(number); // required for counting
+                outputString += String(number); // required for displaying
+                $('#userNumber').text(outputString);
+                console.log(counter);
+                if (counter == 4) {
+                    inputArray.sort(function(a, b){return b-a});
+                    return inputArray;
+                }
+            } else {
+                inputButtons.off('click');
             }
         });
     });
 
-    var submitButton = $('#userNumbersSubmit');
+    /* submit button event function */
     submitButton.on('click', function(e){
         e.preventDefault();
+        submitButton.off('click');
         /*
         validation code here ...
         */
         iterationsListTitle.text("Given number: " + createNumberFromArray(inputArray));
         iterationsListTitle.prependTo(resultBox);
         kaprekarGo(inputArray);
+        
     });
 
-    /*
+    /* clear button event function */
 
-    * * * form function * * *
-
-    submitBtn.on('click', function(e){
+    clearAllBtn.on('click', function(e){
         e.preventDefault();
-        var resultTextClone = resultText.clone(true);
-        var userArray = [];
-        var digit01 = $('#digit01').val();
-        var digit02 = $('#digit02').val();
-        var digit03 = $('#digit03').val();
-        var digit04 = $('#digit04').val();
-        if (digit01 == digit02 && digit02 == digit03 && digit03 == digit04) {
-            resultTextClone.text("At least one digit must be different");
-            resultTextClone.appendTo(resultBox);
-        } else {
-            inputs.each(function(){
-                userArray.push($(this).val());
-                $(this).val("");
-            });
-            userArray.sort(function(a, b){return b-a});
-            iterationsListTitle.text("Given number: " + createNumberFromArray(userArray));
-            iterationsListTitle.prependTo(resultBox);
-            kaprekarGo(userArray);
-        }
+        inputArray = [];
+        counter = 0;
+        $('#userNumber').text("");
+        resultBox.text("");
+        iterationsList.text("");
+        outputString = "";
+        iterationNumber = 0;
+        submitButton.on('click');
     });
-    
-    */
 
     /*
     *** KAPREKAR ITERATION ***
@@ -85,9 +79,6 @@ $(function(){
       Step 3. Subtract the smaller number from the bigger number.
       Step 4. Go back to step 2. 
     */
-
-
-    var iterationNumber = 0;
 
     function kaprekarGo(array) {
         iterationNumber++;
@@ -172,5 +163,37 @@ $(function(){
         result = Number(numString);
         return result;
     }
+
+    /*
+    * * * UNUSED * * *
+    * * * form function * * *
+
+    var submitBtn = $('#submit');
+    var inputs = $('input[name="digit"]');
+
+    submitBtn.on('click', function(e){
+        e.preventDefault();
+        var resultTextClone = resultText.clone(true);
+        var userArray = [];
+        var digit01 = $('#digit01').val();
+        var digit02 = $('#digit02').val();
+        var digit03 = $('#digit03').val();
+        var digit04 = $('#digit04').val();
+        if (digit01 == digit02 && digit02 == digit03 && digit03 == digit04) {
+            resultTextClone.text("At least one digit must be different");
+            resultTextClone.appendTo(resultBox);
+        } else {
+            inputs.each(function(){
+                userArray.push($(this).val());
+                $(this).val("");
+            });
+            userArray.sort(function(a, b){return b-a});
+            iterationsListTitle.text("Given number: " + createNumberFromArray(userArray));
+            iterationsListTitle.prependTo(resultBox);
+            kaprekarGo(userArray);
+        }
+    });
+
+    */
 
 });
