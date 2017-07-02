@@ -47,6 +47,7 @@ $(function(){
     /* submit button event function */
     submitButton.on('click', function(){
         if (inputArray.length === 4) { // simple yet sufficient validation
+            userNumberOutput.text("");
             iterationsListTitle.text("Given number: " + createNumberFromArray(inputArray));
             iterationsListTitle.prependTo(resultBox);
             kaprekarGo(inputArray);
