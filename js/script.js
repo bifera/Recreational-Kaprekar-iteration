@@ -14,9 +14,7 @@ $(function(){
     var iterationNumber = 0;
 
     /*
-
     input with buttons function
-
     */
 
     var inputButtons = $('.numButton');
@@ -41,7 +39,7 @@ $(function(){
                     return inputArray;
                 }
             } else {
-                inputButtons.off('click');
+                counter = 5;
             }
         });
     });
