@@ -90,20 +90,9 @@ $(function(){
         var zeroForNum2 = checkResult(num2);
         var zeroForResult = checkResult(result);
 
-        function checkResult(givenNumber) {
-            var string = "";
-            if (givenNumber < 1000) {
-                string = "0";
-                if (givenNumber < 100) {
-                    string ="00";
-                }
-            }
-            return string;
-        }
-
         // display results after each iteration
         listItemClone.text("iteration no. " + iterationNumber + ": " + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + " = " + zeroForResult + result);
-        listItemClone.appendTo(iterationsList).attr('id', 'iterNum-0'+iterationNumber);
+        listItemClone.appendTo(iterationsList).attr('data-num', iterationNumber);
         /* 
         condition: Kaprekar's constant is 6174 
         */
@@ -123,8 +112,35 @@ $(function(){
             var finalResult = resultText.clone(true);
             finalResult.text("Kaprekar's constant " + result + " found after " + iterationNumber + " iterations!");
             finalResult.insertAfter($('#listTitle'));
-            iterationsList.appendTo(resultBox);
+            iterationsList.appendTo(resultBox).find('li').hide();
+            displaySingleIterationInfo(iterationNumber, $('li'), 0);
         }
+    }
+
+    /*    
+    ** Kaprekar functions
+    */
+    // animation for single iteration display
+    function displaySingleIterationInfo(number, listElements, itemIndex){
+        if (itemIndex < number) {
+            $(listElements[itemIndex]).slideDown(2000, function(){
+                $(listElements[itemIndex]).hide();
+                itemIndex++;
+                displaySingleIterationInfo(number, listElements, itemIndex);
+            });
+        }
+    }
+    
+    // just for neatness: zeroes for numbers smaller than 1000
+    function checkResult(givenNumber) {
+        var string = "";
+        if (givenNumber < 1000) {
+            string = "0";
+            if (givenNumber < 100) {
+                string ="00";
+            }
+        }
+        return string;
     }
 
     /*
