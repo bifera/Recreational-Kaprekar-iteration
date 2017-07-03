@@ -97,7 +97,7 @@ $(function(){
         var zeroForResult = checkResult(result);
 
         // display results after each iteration
-        listItemClone.text("iteration no. " + iterationNumber + ": " + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + " = " + zeroForResult + result);
+        listItemClone.html("iteration no. " + iterationNumber + ":<br />" + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + "<br /> = " + zeroForResult + result);
         listItemClone.appendTo(iterationsList).attr('data-num', iterationNumber);
         /* 
         condition: Kaprekar's constant is 6174 
