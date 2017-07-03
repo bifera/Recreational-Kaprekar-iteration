@@ -5,7 +5,7 @@ $(function(){
     */
 
     var resultBox = $('#result');
-    var resultText = $('<p>').addClass('invisible');
+    var resultText = $('<p>');
     resultText.appendTo(resultBox);
 
     var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
@@ -49,11 +49,14 @@ $(function(){
     /* submit button event function */
     submitButton.on('click', function(){
         if (inputArray.length === 4) { // simple yet sufficient validation
-            userNumberOutput.text("");
-            iterationsListTitle.text("Given number: " + createNumberFromArray(inputArray));
-            iterationsListTitle.prependTo(resultBox);
-            kaprekarGo(inputArray);
-            inputArray = []; // to prevent repeating kaprekarGo function
+            resultText.text("");
+            userNumberOutput.animate({top: "1.5vh", "font-size": "2em"}, function(){
+                userNumberOutput.text("Given number: " + createNumberFromArray(inputArray));
+                kaprekarGo(inputArray);
+                inputArray = []; // clear array to prevent repeating kaprekarGo function
+            });
+        } else {
+            resultText.text("Please enter 4 digits.");
         }
     });
 
@@ -63,10 +66,11 @@ $(function(){
         inputArray = [];
         counter = 0;
         userNumberOutput.text("");
-        resultBox.text("");
+        resultText.text("");
         iterationsList.text("");
         outputString = "";
         iterationNumber = 0;
+        userNumberOutput.removeAttr("style");
     });
 
     /*
@@ -112,7 +116,6 @@ $(function(){
             kaprekarGo(newArray);
         } else {
             iterationsList.appendTo(resultBox);
-            userNumberOutput.addClass('invisible');
             displaySingleIterationInfo(iterationNumber, $('li'), 0);
         }
     }
