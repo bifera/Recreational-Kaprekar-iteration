@@ -5,10 +5,12 @@ $(function(){
     */
 
     var resultBox = $('#result');
-    var resultText = $('<p>');
+    var resultText = $('<p>').addClass('invisible');
+    resultText.appendTo(resultBox);
+
     var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
     var iterationsList = $('<ul>');
-    var iterationsListItem = $('<li>');
+    var iterationsListItem = $('<li>').addClass('invisible');
     var clearAllBtn = $('#clearAll');
 
     var iterationNumber = 0;
@@ -109,10 +111,8 @@ $(function(){
             // step 4: a happy return to step 2!
             kaprekarGo(newArray);
         } else {
-            var finalResult = resultText.clone(true);
-            finalResult.text("Kaprekar's constant " + result + " found after " + iterationNumber + " iterations!");
-            finalResult.insertAfter($('#listTitle'));
-            iterationsList.appendTo(resultBox).find('li').hide();
+            iterationsList.appendTo(resultBox);
+            userNumberOutput.addClass('invisible');
             displaySingleIterationInfo(iterationNumber, $('li'), 0);
         }
     }
@@ -123,14 +123,21 @@ $(function(){
     // animation for single iteration display
     function displaySingleIterationInfo(number, listElements, itemIndex){
         if (itemIndex < number) {
-            $(listElements[itemIndex]).slideDown(2000, function(){
-                $(listElements[itemIndex]).hide();
-                itemIndex++;
-                displaySingleIterationInfo(number, listElements, itemIndex);
+            $(listElements[itemIndex]).fadeIn(1500, function(){
+                $(listElements[itemIndex]).fadeOut(function(){
+                    itemIndex++;
+                    displaySingleIterationInfo(number, listElements, itemIndex);
+                });
             });
+        } else {
+            resultText.text("Kaprekar's constant 6174 found after " + number + " iterations!");
+            $(listElements[number-1]).fadeOut(1500, function(){
+                resultText.fadeIn(1000);
+            });
+            return 0;
         }
     }
-    
+
     // just for neatness: zeroes for numbers smaller than 1000
     function checkResult(givenNumber) {
         var string = "";
