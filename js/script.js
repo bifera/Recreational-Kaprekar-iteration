@@ -17,10 +17,11 @@ $(function(){
 
     /* new DOM elements */
     var resultText = $('<p>');
-    resultText.appendTo(resultBox);
     var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
     var iterationsList = $('<ul>');
     var iterationsListItem = $('<li>').addClass('invisible');
+    resultText.appendTo(resultBox);
+    iterationsList.appendTo(resultBox);
 
     /* empty variables, counters */
     var iterationNumber = 0;
@@ -57,7 +58,7 @@ $(function(){
         if (inputArray.length === 4) { // simple validation
             resultText.text(""); // clear any previously displayed text
             // some kind of fancy text slide 
-            userNumberOutput.animate({top: "1.5vh", "font-size": "2em"}, function(){
+            userNumberOutput.animate({top: "1.5vh", "font-size": "1.6em"}, function(){
                 userNumberOutput.text("Given numbers: " + outputString);
                 kaprekarGo(inputArray); // run iterations and display result
                 inputArray = []; // clear array to prevent repeating kaprekarGo function
@@ -145,7 +146,6 @@ $(function(){
             // step 4: a happy return to step 2!
             kaprekarGo(newArray);
         } else { // so this is the moment when you get to the end and find the constant
-            iterationsList.appendTo(resultBox);
             displaySingleIterationInfo(iterationNumber, $('li'), 0);
         }
     }
