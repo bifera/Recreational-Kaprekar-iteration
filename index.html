@@ -9,15 +9,21 @@
                 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
                 crossorigin="anonymous"></script>
         <script src="./js/script.js"></script>
+        <script src="https://use.fontawesome.com/238305f4e3.js"></script>
         <link rel="stylesheet" type="text/css" href="./css/style.css">
     </head>
     <body>
         <div class="shadow">
             <header class="container">
-                <h1>Kaprekar's routine</h1>
+                <h1>Kaprekar routine</h1>
+                <i class="fa fa-question-circle-o" id="infoButton"></i>
             </header>
             <main class="container">
                 <div class="output">
+                    <div class="dropdownInfo invisible" id="dropdownBox">
+                        <p class="infoText" id="infoText"></p>
+                        <p class="quotationSource">Weisstein, Eric W. "Kaprekar Routine." <br /><a href="http://mathworld.wolfram.com/KaprekarRoutine.html" target="_blank">From MathWorld--A Wolfram Web Resource. </a></p>
+                    </div>
                     <div id="userNumber" class="numberOutput"></div>
                     <div id="result" class="resultDisplay"></div>
                 </div>
@@ -43,33 +49,6 @@
                         <div id="clearAll" class="button"><p>Clear All</p></div>
                     </div>
                 </div>
-
-
-
-
-                <!--
-
-***** different type of number input -- using form inputs *****
-
-<form>
-<label>Number 1: 
-<input type="text" name="digit" id="digit01" maxlength="1">
-</label>
-<label>Number 2: 
-<input type="text" name="digit" id="digit02" maxlength="1">
-</label>
-<label>Number 3: 
-<input type="text" name="digit" id="digit03" maxlength="1">
-</label>
-<label>Number 4: 
-<input type="text" name="digit" id="digit04" maxlength="1">
-</label>
-<button id="submit">Submit</button>
-</form>
-
-
--->
-
             </main>
             <footer>
             </footer>
