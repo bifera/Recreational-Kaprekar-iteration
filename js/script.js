@@ -1,67 +1,73 @@
 $(function(){
 
     /*
-    DOM functions
+    DOM variables
     */
 
+    /* existing DOM elements */
+    var inputButtons = $('.numButton');
+    var submitButton = $('#userNumbersSubmit');
+    var clearAllBtn = $('#clearAll');
+    var infoButton = $('#infoButton');
+
     var resultBox = $('#result');
+    var userNumberOutput = $('#userNumber');
+    var dropdownBox = $('#dropdownBox');
+    var infoText = $('#infoText');
+
+    /* new DOM elements */
     var resultText = $('<p>');
     resultText.appendTo(resultBox);
-
     var iterationsListTitle = $('<h2>').attr('id', 'listTitle');
     var iterationsList = $('<ul>');
     var iterationsListItem = $('<li>').addClass('invisible');
-    var clearAllBtn = $('#clearAll');
 
+    /* empty variables, counters */
     var iterationNumber = 0;
-
-    /*
-    input with buttons function
-    */
-
-    var inputButtons = $('.numButton');
     var counter = 0;
     var inputArray = [];
     var outputString = "";
-    var userNumberOutput = $('#userNumber');
-    var submitButton = $('#userNumbersSubmit');
 
-    /* retrieving input array and displaying input */
+    /* -------------------------------------------------------------------------- */
+    /*
+    DOM functions
+    */
+
+    /* input: creating array and displaying given number */
     inputButtons.each(function(){
         $(this).on('click', function(){
             counter++;
             if (counter <= 4) {
                 var number = $(this).data('value');
                 inputArray.push(number); // required for counting
-                outputString += String(number); // required for displaying
+                outputString += String(number); // required for display
                 userNumberOutput.text(outputString);
-                console.log(counter);
                 if (counter == 4) {
                     inputArray.sort(function(a, b){return b-a});
                     return inputArray;
                 }
             } else {
-                counter = 5;
+                counter = 5; // stop the counter
             }
         });
     });
 
     /* submit button event function */
     submitButton.on('click', function(){
-        if (inputArray.length === 4) { // simple yet sufficient validation
-            resultText.text("");
+        if (inputArray.length === 4) { // simple validation
+            resultText.text(""); // clear any previously displayed text
+            // some kind of fancy text slide 
             userNumberOutput.animate({top: "1.5vh", "font-size": "2em"}, function(){
-                userNumberOutput.text("Given number: " + createNumberFromArray(inputArray));
-                kaprekarGo(inputArray);
+                userNumberOutput.text("Given numbers: " + outputString);
+                kaprekarGo(inputArray); // run iterations and display result
                 inputArray = []; // clear array to prevent repeating kaprekarGo function
             });
         } else {
-            resultText.text("Please enter 4 digits.");
+            resultText.text("Please enter 4 digits."); // user warning
         }
     });
 
     /* clear button event function */
-
     clearAllBtn.on('click', function(){
         inputArray = [];
         counter = 0;
@@ -73,6 +79,30 @@ $(function(){
         userNumberOutput.removeAttr("style");
     });
 
+    /* info button event functions */
+    infoButton.on('click', function(){
+        // perform ajax request only once, as info text will be later stored
+        if (infoText.text() == "") {
+            $.get("http://api.wolframalpha.com/v2/query?appid=VJJXJW-KP8U5E3J4T&input=kaprekar+routine&includepodid=DefinitionPod:MathWorldData&format=plaintext").done(function(response){
+                displayInfo(response);
+            }).fail(function(error){
+                console.log(error);
+            });
+        } else {
+            // info text is already retrieved and stored
+            // it just needs to be shown or hidden
+            dropdownBox.toggleClass('invisible');
+        }
+    });
+
+    function displayInfo(data){
+        var retrievedInfoElement = $(data).find('plaintext');
+        var retrievedInfoText = retrievedInfoElement[0].innerHTML; // get the right data
+        dropdownBox.toggleClass('invisible');
+        infoText.text(retrievedInfoText);
+    }
+
+    /* ----------------------------------------------------------------------- */
     /*
     *** KAPREKAR ITERATION ***
       Step 1. Take any four-digit number, using at least two different digits. (Leading zeros are allowed.)
@@ -84,8 +114,8 @@ $(function(){
     function kaprekarGo(array) {
         iterationNumber++;
         var result = 0;
-        var array1 = array; // will be needed for step 2
-        var array2 = createMirrorArray(array1); // will be needed for step 2
+        var array1 = array; // required for step 2
+        var array2 = createMirrorArray(array1); // required for step 2
         var num1 = createNumberFromArray(array1);
         var num2 = createNumberFromArray(array2);
         var listItemClone = iterationsListItem.clone(true);
@@ -97,7 +127,7 @@ $(function(){
         var zeroForResult = checkResult(result);
 
         // display results after each iteration
-        listItemClone.html("iteration no. " + iterationNumber + ":<br />" + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + "<br /> = " + zeroForResult + result);
+        listItemClone.html("iteration no. " + iterationNumber + ":<br />" + zeroForNum1 + num1 + " - " + zeroForNum2 + num2 + " = " + zeroForResult + result);
         listItemClone.appendTo(iterationsList).attr('data-num', iterationNumber);
         /* 
         condition: Kaprekar's constant is 6174 
@@ -107,14 +137,14 @@ $(function(){
             result = String(result);
             var newArray = result.split("");
             console.log(newArray);
-            // if result < 1000, it has three digits, therefore 0 must be added to the array
+            // if result < 1000, it has three digits, therefore 0 must be added
             while (newArray.length < 4) {
                 newArray.push(0);
             }
             newArray.sort(function(a, b){return b-a});
             // step 4: a happy return to step 2!
             kaprekarGo(newArray);
-        } else {
+        } else { // so this is the moment when you get to the end and find the constant
             iterationsList.appendTo(resultBox);
             displaySingleIterationInfo(iterationNumber, $('li'), 0);
         }
@@ -178,37 +208,4 @@ $(function(){
         var result = Number(numString);
         return result;
     }
-
-    /*
-    * * * UNUSED * * *
-    * * * form function * * *
-
-    var submitBtn = $('#submit');
-    var inputs = $('input[name="digit"]');
-
-    submitBtn.on('click', function(e){
-        e.preventDefault();
-        var resultTextClone = resultText.clone(true);
-        var userArray = [];
-        var digit01 = $('#digit01').val();
-        var digit02 = $('#digit02').val();
-        var digit03 = $('#digit03').val();
-        var digit04 = $('#digit04').val();
-        if (digit01 == digit02 && digit02 == digit03 && digit03 == digit04) {
-            resultTextClone.text("At least one digit must be different");
-            resultTextClone.appendTo(resultBox);
-        } else {
-            inputs.each(function(){
-                userArray.push($(this).val());
-                $(this).val("");
-            });
-            userArray.sort(function(a, b){return b-a});
-            iterationsListTitle.text("Given number: " + createNumberFromArray(userArray));
-            iterationsListTitle.prependTo(resultBox);
-            kaprekarGo(userArray);
-        }
-    });
-
-    */
-
 });
